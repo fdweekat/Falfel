@@ -1,1 +1,5 @@
+Django==1.11
+djangorestframework
+markdown
+django-filter
 python-dateutil
