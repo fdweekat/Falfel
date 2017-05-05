@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from . import views
 from order_view import order_view
+from rest_framework.authtoken import views as auth_views
 
 urlpatterns = [
-    url(r'^test/', views.example_view, name="test"),
     url(r'^menuitems/', views.get_menu_items, name="menuitems"),
     url(r'^order/', order_view.as_view(), name="order"),
     url(r'^revenue/(\d+)', views.get_revenu_report, name="revenue"),
     url(r'^best/(\d+)', views.get_best_user, name="best"),
     url(r'^avg/', views.get_avg_spent, name="average"),
+    url(r'^login/', auth_views.obtain_auth_token, name="login"),
 ]
