@@ -11,14 +11,12 @@ class menu_item_serializer(serializers.ModelSerializer):
 class user_orders_serializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserOrders
-		fields = '__all__'
+		exclude = ('user',)
 		depth = 2
 		
 
 class revenue_serializer(serializers.Serializer):
 	total = serializers.IntegerField(required=False)
-	revenue = serializers.IntegerField(required=False)
-	menu_item__price = serializers.IntegerField(required=False)
 	month = serializers.CharField(required=False, allow_blank=True, max_length=200)
 	
 

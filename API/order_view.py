@@ -24,7 +24,7 @@ class order_view(APIView):
 		if (request.content_type.lower() == "application/json"):
 			return self.__handle_request_order(request.body, request.user)
 
-		return JsonResponse( {"error" : "no content type"})
+		return JsonResponse( {"error" : "wrong content type '%s'" % request.content_type})
 	
 	def get(self, request, format=None):
 		data = UserOrders.objects.filter(user=request.user)
@@ -33,13 +33,17 @@ class order_view(APIView):
 
 		
 	def __handle_request_order(self, data, user):
-		json_data = json.loads(data)
+		try:
+			json_data = json.loads(data)
+		except:
+			return JsonResponse( {"error" : "Couldn't parse body request '%s'" % data})
+		
 		keys = json_data.keys()
 
 		print(str(keys))
 		print(str((ITEMS_KEY, DELEVIRY_TIME_KEY, ADDRESS_KEY)))
 		if (any(k not in keys for k in [ITEMS_KEY, DELEVIRY_TIME_KEY, ADDRESS_KEY])):
-			return JsonResponse( {"error" : "Bad json object11"})
+			return JsonResponse( {"error" : "Bad json object"})
 
 		try:
 			deleviry_time = dateutil.parser.parse(json_data[DELEVIRY_TIME_KEY])
